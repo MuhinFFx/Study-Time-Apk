@@ -1,0 +1,6 @@
+{
+  "name": "Study Time",
+  "description": "All-in-one student productivity, Pomodoro study tracking, social learning, gamification, and AI study assistant platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

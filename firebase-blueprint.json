@@ -1,0 +1,369 @@
+{
+  "entities": {
+    "PublicProfile": {
+      "title": "PublicProfile",
+      "description": "Publicly visible student profile and gamification stats without PII.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "username": { "type": "string" },
+        "displayName": { "type": "string" },
+        "bio": { "type": "string" },
+        "country": { "type": "string" },
+        "avatarEmoji": { "type": "string" },
+        "avatarColorHex": { "type": "string" },
+        "planTier": { "type": "string", "enum": ["FREE", "PREMIUM"] },
+        "totalXp": { "type": "integer" },
+        "level": { "type": "integer" },
+        "totalStudyMinutes": { "type": "integer" },
+        "currentStreakDays": { "type": "integer" },
+        "longestStreakDays": { "type": "integer" },
+        "dailyGoalMinutes": { "type": "integer" },
+        "onlineStatus": { "type": "string", "enum": ["ONLINE", "FOCUSING", "OFFLINE"] },
+        "hideFromLeaderboard": { "type": "boolean" },
+        "publicProfile": { "type": "boolean" },
+        "suspended": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "username", "displayName", "planTier", "totalXp", "level", "totalStudyMinutes", "createdAt", "updatedAt"]
+    },
+    "PrivateUser": {
+      "title": "PrivateUser",
+      "description": "Private user account settings and PII.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "email": { "type": "string" },
+        "username": { "type": "string" },
+        "displayName": { "type": "string" },
+        "country": { "type": "string" },
+        "dailyGoalMinutes": { "type": "integer" },
+        "themePreference": { "type": "string", "enum": ["SYSTEM", "LIGHT", "DARK", "GRADIENT"] },
+        "fontPreference": { "type": "string", "enum": ["INTER", "MANROPE", "GEIST", "GENERAL_SANS", "PLUS_JAKARTA_SANS"] },
+        "planTier": { "type": "string", "enum": ["FREE", "PREMIUM"] },
+        "role": { "type": "string", "enum": ["USER", "ADMIN"] },
+        "notificationsMuted": { "type": "boolean" },
+        "onboardingCompleted": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "username", "displayName", "themePreference", "planTier", "role", "createdAt", "updatedAt"]
+    },
+    "Subject": {
+      "title": "Subject",
+      "description": "A study subject with target and completed hours.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "iconKey": { "type": "string" },
+        "colorHex": { "type": "string" },
+        "description": { "type": "string" },
+        "targetMinutes": { "type": "integer" },
+        "completedMinutes": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "iconKey", "colorHex", "targetMinutes", "completedMinutes", "createdAt", "updatedAt"]
+    },
+    "StudySession": {
+      "title": "StudySession",
+      "description": "Verified Pomodoro or custom focus study session.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "subjectId": { "type": "string" },
+        "subjectName": { "type": "string" },
+        "durationMinutes": { "type": "integer" },
+        "mode": { "type": "string", "enum": ["POMODORO_25", "DEEP_50", "CUSTOM"] },
+        "notes": { "type": "string" },
+        "xpEarned": { "type": "integer" },
+        "verifiedStartMillis": { "type": "integer" },
+        "verifiedEndMillis": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "subjectId", "subjectName", "durationMinutes", "mode", "xpEarned", "verifiedStartMillis", "verifiedEndMillis", "createdAt", "updatedAt"]
+    },
+    "StudyTask": {
+      "title": "StudyTask",
+      "description": "Planner task, schedule item, or exam countdown.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "subjectId": { "type": "string" },
+        "subjectName": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "priority": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH"] },
+        "dueDateMillis": { "type": "integer" },
+        "reminderEnabled": { "type": "boolean" },
+        "recurring": { "type": "string", "enum": ["NONE", "DAILY", "WEEKLY"] },
+        "examFlag": { "type": "boolean" },
+        "completed": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "priority", "dueDateMillis", "examFlag", "completed", "createdAt", "updatedAt"]
+    },
+    "StudyNote": {
+      "title": "StudyNote",
+      "description": "Rich study note organized by subject.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "subjectId": { "type": "string" },
+        "subjectName": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "pinned": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "content", "pinned", "createdAt", "updatedAt"]
+    },
+    "FriendRequest": {
+      "title": "FriendRequest",
+      "description": "Friend request or active friendship link between two users.",
+      "type": "object",
+      "properties": {
+        "fromUid": { "type": "string" },
+        "fromName": { "type": "string" },
+        "toUid": { "type": "string" },
+        "toName": { "type": "string" },
+        "status": { "type": "string", "enum": ["PENDING", "ACCEPTED", "REJECTED"] },
+        "participantUids": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fromUid", "fromName", "toUid", "toName", "status", "participantUids", "createdAt", "updatedAt"]
+    },
+    "StudyGroup": {
+      "title": "StudyGroup",
+      "description": "Collaborative study group with shared goals and chat.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "goalMinutes": { "type": "integer" },
+        "totalGroupMinutes": { "type": "integer" },
+        "memberCount": { "type": "integer" },
+        "publicGroup": { "type": "boolean" },
+        "memberUids": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "ownerId", "goalMinutes", "totalGroupMinutes", "memberCount", "publicGroup", "memberUids", "createdAt", "updatedAt"]
+    },
+    "GroupMessage": {
+      "title": "GroupMessage",
+      "description": "Message in a study group chat.",
+      "type": "object",
+      "properties": {
+        "groupId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "text": { "type": "string" },
+        "replyToText": { "type": "string" },
+        "emojiReaction": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["groupId", "senderId", "senderName", "text", "createdAt", "updatedAt"]
+    },
+    "DirectChat": {
+      "title": "DirectChat",
+      "description": "Private 1-on-1 conversation thread.",
+      "type": "object",
+      "properties": {
+        "participantUids": { "type": "array" },
+        "participantLabels": { "type": "array" },
+        "lastMessage": { "type": "string" },
+        "lastSenderId": { "type": "string" },
+        "mutedByUids": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["participantUids", "participantLabels", "lastMessage", "lastSenderId", "createdAt", "updatedAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Private direct chat message with denormalized memberUids.",
+      "type": "object",
+      "properties": {
+        "chatId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "text": { "type": "string" },
+        "replyToText": { "type": "string" },
+        "emojiReaction": { "type": "string" },
+        "memberUids": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["chatId", "senderId", "senderName", "text", "memberUids", "createdAt", "updatedAt"]
+    },
+    "Challenge": {
+      "title": "Challenge",
+      "description": "Personal, group, or global study challenge.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "creatorId": { "type": "string" },
+        "creatorName": { "type": "string" },
+        "targetMinutes": { "type": "integer" },
+        "xpReward": { "type": "integer" },
+        "scope": { "type": "string", "enum": ["PERSONAL", "GROUP", "GLOBAL"] },
+        "participantUids": { "type": "array" },
+        "status": { "type": "string", "enum": ["ACTIVE", "COMPLETED"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "creatorId", "creatorName", "targetMinutes", "xpReward", "scope", "participantUids", "status", "createdAt", "updatedAt"]
+    },
+    "UserAchievement": {
+      "title": "UserAchievement",
+      "description": "Unlocked achievement badge for a user.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "key": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "xpReward": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "key", "title", "description", "xpReward", "createdAt", "updatedAt"]
+    },
+    "UserNotification": {
+      "title": "UserNotification",
+      "description": "In-app notification item.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "body": { "type": "string" },
+        "category": { "type": "string", "enum": ["STUDY", "SOCIAL", "ACHIEVEMENT", "SYSTEM"] },
+        "hasRead": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "body", "category", "hasRead", "createdAt", "updatedAt"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Admin-published global announcement.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "authorId": { "type": "string" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "message", "authorId", "active", "createdAt", "updatedAt"]
+    },
+    "ModerationReport": {
+      "title": "ModerationReport",
+      "description": "User-submitted moderation or spam report.",
+      "type": "object",
+      "properties": {
+        "reporterId": { "type": "string" },
+        "targetUid": { "type": "string" },
+        "reason": { "type": "string" },
+        "status": { "type": "string", "enum": ["OPEN", "RESOLVED"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["reporterId", "targetUid", "reason", "status", "createdAt", "updatedAt"]
+    },
+    "BlockedUser": {
+      "title": "BlockedUser",
+      "description": "Blocked user entry owned by the blocker.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "blockedUid": { "type": "string" },
+        "blockedName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "blockedUid", "blockedName", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/public_profiles/{userId}": {
+      "schema": { "$ref": "#/entities/PublicProfile" },
+      "description": "Public gamification & study profile without PII."
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/PrivateUser" },
+      "description": "Private user account data and PII."
+    },
+    "/users/{userId}/subjects/{subjectId}": {
+      "schema": { "$ref": "#/entities/Subject" },
+      "description": "User's study subjects."
+    },
+    "/users/{userId}/sessions/{sessionId}": {
+      "schema": { "$ref": "#/entities/StudySession" },
+      "description": "User's completed focus sessions."
+    },
+    "/users/{userId}/tasks/{taskId}": {
+      "schema": { "$ref": "#/entities/StudyTask" },
+      "description": "User's planner tasks and exam countdowns."
+    },
+    "/users/{userId}/notes/{noteId}": {
+      "schema": { "$ref": "#/entities/StudyNote" },
+      "description": "User's subject notes."
+    },
+    "/users/{userId}/achievements/{achievementId}": {
+      "schema": { "$ref": "#/entities/UserAchievement" },
+      "description": "Unlocked achievements for user."
+    },
+    "/users/{userId}/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/UserNotification" },
+      "description": "User notifications."
+    },
+    "/users/{userId}/blocked/{blockedUid}": {
+      "schema": { "$ref": "#/entities/BlockedUser" },
+      "description": "Blocked users list."
+    },
+    "/friend_requests/{requestId}": {
+      "schema": { "$ref": "#/entities/FriendRequest" },
+      "description": "Friend requests and friendships."
+    },
+    "/study_groups/{groupId}": {
+      "schema": { "$ref": "#/entities/StudyGroup" },
+      "description": "Collaborative study groups."
+    },
+    "/study_groups/{groupId}/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/GroupMessage" },
+      "description": "Messages inside a study group."
+    },
+    "/chats/{chatId}": {
+      "schema": { "$ref": "#/entities/DirectChat" },
+      "description": "1-on-1 chat threads."
+    },
+    "/chats/{chatId}/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/ChatMessage" },
+      "description": "Messages inside a 1-on-1 chat."
+    },
+    "/challenges/{challengeId}": {
+      "schema": { "$ref": "#/entities/Challenge" },
+      "description": "Personal, group, and global challenges."
+    },
+    "/announcements/{announcementId}": {
+      "schema": { "$ref": "#/entities/Announcement" },
+      "description": "Global platform announcements."
+    },
+    "/reports/{reportId}": {
+      "schema": { "$ref": "#/entities/ModerationReport" },
+      "description": "Moderation reports."
+    }
+  }
+}
